@@ -7,4 +7,3 @@ from .serializers import FamilyCompositionSerializer
 class FamilyCompositionViewSet(viewsets.ModelViewSet):
     queryset = FamilyComposition.objects.all()
     serializer_class = FamilyCompositionSerializer
-    lookup_field = 'iin'
