@@ -7,4 +7,3 @@ from .serializers import EducationSerializer
 class EducationViewSet(viewsets.ModelViewSet):
     queryset = Education.objects.all()
     serializer_class = EducationSerializer
-    lookup_field = 'iin'

@@ -7,4 +7,3 @@ from .serializers import OwningLanguagesSerializer
 class OwningLanguagesViewSet(viewsets.ModelViewSet):
     queryset = OwningLanguages.objects.all()
     serializer_class = OwningLanguagesSerializer
-    lookup_field = 'iin'

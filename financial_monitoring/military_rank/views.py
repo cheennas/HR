@@ -7,4 +7,3 @@ from .serializers import MilitaryRankSerializer
 class MilitaryRankViewSet(viewsets.ModelViewSet):
     queryset = MilitaryRank.objects.all()
     serializer_class = MilitaryRankSerializer
-    lookup_field = 'iin'

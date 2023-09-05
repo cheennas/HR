@@ -13,6 +13,8 @@ from academic_degree.serializers import AcademicDegreeSerializer
 from sport_results.models import SportResults
 from sport_results.serializers import SportResultSerializers
 from general_info.models import GeneralInfo
+from courses.models import Courses
+from courses.serializers import CoursesSerializer
 from rest_framework import status
 
 
@@ -21,6 +23,7 @@ class PersonalInfoAPIView(APIView):
                         'family_compositions': FamilyComposition,
                         'educations': Education,
                         'owning_languages': OwningLanguages,
+                        'courses' : Courses,
                         'academic_degree': AcademicDegree,
                         'sport_results': SportResults
                         }
@@ -30,6 +33,7 @@ class PersonalInfoAPIView(APIView):
         'family_compositions': FamilyCompositionSerializer,
         'educations': EducationSerializer,
         'owning_languages': OwningLanguagesSerializer,
+        'courses': CoursesSerializer,
         'academic_degree': AcademicDegreeSerializer,
         'sport_results': SportResultSerializers,
     }

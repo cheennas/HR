@@ -7,4 +7,3 @@ from .serializers import AcademicDegreeSerializer
 class AcademicDegreeViewSet(viewsets.ModelViewSet):
     queryset = AcademicDegree.objects.all()
     serializer_class = AcademicDegreeSerializer
-    lookup_field = 'iin'
