@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'photo',
     'staff_main',
     'group',
+    # 'report_filter'
 ]
 
 MIDDLEWARE = [

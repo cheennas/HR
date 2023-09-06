@@ -33,6 +33,7 @@ from user.urls import urlpatterns as user_urlpatterns
 from word_generator.urls import urlpatterns as wordgenerator_urlpatterns
 from staff_main.urls import urlpatterns as staffmain_urlpatterns
 from group.urls import urlpatterns as group_urlpatterns
+from report_filter.urls import urlpatterns as reportlist_urlpatterns
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -72,3 +73,4 @@ urlpatterns += user_urlpatterns
 urlpatterns += wordgenerator_urlpatterns
 urlpatterns += staffmain_urlpatterns
 urlpatterns += group_urlpatterns
+# urlpatterns += reportlist_urlpatterns

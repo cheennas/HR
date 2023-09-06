@@ -8,6 +8,7 @@ from investigation_retrieval.models import InvestigationRetrieval
 from class_category.models import ClassCategory
 from autobiography.models import Autobiography
 from sick_leaves.models import SickLeaves
+from military_rank.models import MilitaryRank
 
 from spec_check.serializers import SpecCheckSerializer
 from attestation.serializers import AttestationSerializer
@@ -16,6 +17,7 @@ from investigation_retrieval.serializers import InvestigationRetrievalSerializer
 from class_category.serializers import ClassCategorySerializer
 from autobiography.serializers import AutobiographySerializer
 from sick_leaves.serializers import SickLeavesSerializer
+from military_rank.serializers import MilitaryRankSerializer
 
 from rest_framework import status
 from general_info.models import GeneralInfo
@@ -30,6 +32,7 @@ class StaffInfoAPIView(APIView):
                         'class_categories': ClassCategory,
                         'autobiography': Autobiography,
                         'sick_leaves': SickLeaves,
+                        'military_rank': MilitaryRank,
                         }
 
     available_serializers = {'spec_checks': SpecCheckSerializer,
@@ -39,6 +42,7 @@ class StaffInfoAPIView(APIView):
                              'class_categories': ClassCategorySerializer,
                              'autobiography': AutobiographySerializer,
                              'sick_leaves': SickLeavesSerializer,
+                             'military_rank': MilitaryRankSerializer,
                              }
 
     def get(self, request, id, format=None):
@@ -105,8 +109,6 @@ class StaffInfoAPIView(APIView):
         for model_name in fields_list:
             if model_name not in self.available_models.keys():
                 continue
-
-
 
             if model_name == 'autobiography':
                 current_data = [current_data]
