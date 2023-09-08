@@ -37,9 +37,12 @@ from working_history.models import WorkingHistory
 from working_history.serializers import WorkingHistorySerializer
 from military_rank.models import MilitaryRank
 from military_rank.serializers import MilitaryRankSerializer
+from django.db import connection
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
-class ReportListAPIView(ListAPIView):
+class ReportListAPIView(APIView):
     available_models = {'general_info': GeneralInfo,
                         'personal_data': PersonalData,
                         'family_compositions': FamilyComposition,
@@ -78,40 +81,35 @@ class ReportListAPIView(ListAPIView):
                              'military_ranks': MilitaryRankSerializer,
                              }
 
-    serializer_class = GeneralInfoSerializer
+    field_to_model = {
+        model_field.name: model_name for model_name, model in available_models.items() for model_field in model._meta.fields
+    }
 
-    def get_queryset(self):
-        sql_query = """
-            SELECT * from general_info
-            INNER JOIN family_composition ON family_composition.iin_id = general_info.id
-            """
+    def get(self, request, format=None):
+        response_data = []
+        model_fields_filter = {}
+        print(request.query_params)
 
-        queryset = GeneralInfo.objects.raw(sql_query)
-        print(queryset)
-        return queryset
-        # response_data = GeneralInfo.objects.raw("SELECT * FROM ")
+        for field_name, field_value in request.query_params.items():
+            if self.field_to_model[field_name] not in model_fields_filter:
+                 model_fields_filter[self.field_to_model[field_name]] = {}
+            model_fields_filter[self.field_to_model[field_name]][field_name] = field_value
 
+        general_infos = GeneralInfo.objects.all()
 
+        if "general_info" in model_fields_filter:
+            for field_name, field_value in model_fields_filter["general_info"].items():
+                pass
+            general_infos = general_infos.filter(**model_fields_filter["general_info"])
 
+        model_fields_filter.pop("general_info", None)
 
-        # if id is None:
-        #     return Response({'message': 'Введите корректный ID'}, status=status.HTTP_400_BAD_REQUEST)
-        #
-        # try:
-        #     general_info = GeneralInfo.objects.get(id=id)
-        # except:
-        #     return Response({'message': 'Пользователь с таким ID не найден'}, status=status.HTTP_404_NOT_FOUND)
-        #
-        # response_data = {}
-        #
-        # for related_name, serializer in self.available_serializers.items():
-        #     related_queryset = getattr(general_info, related_name).all()
-        #     if related_name != 'personal_data':
-        #         response_data[related_name] = serializer(related_queryset, many=True).data
-        #     else:
-        #         if (len(related_queryset)) >= 1:
-        #             response_data[related_name] = serializer(related_queryset[0]).data
-        #         else:
-        #             response_data[related_name] = {}
+        for general_info in general_infos:
+            current_data = {"general_info": self.available_serializers["general_info"](general_info).data}
+            for related_name, fields_filter in model_fields_filter.items():
+                related_queryset = getattr(general_info, related_name).all()
+                related_queryset = related_queryset.filter(**fields_filter)
+                current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data
+            response_data.append(current_data)
 
-        # return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)

@@ -110,6 +110,8 @@ class StaffInfoAPIView(APIView):
             if model_name not in self.available_models.keys():
                 continue
 
+            current_data = request.data.get(model_name)
+
             if model_name == 'autobiography':
                 current_data = [current_data]
 
