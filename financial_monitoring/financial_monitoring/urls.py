@@ -73,4 +73,4 @@ urlpatterns += user_urlpatterns
 urlpatterns += wordgenerator_urlpatterns
 urlpatterns += staffmain_urlpatterns
 urlpatterns += group_urlpatterns
-# urlpatterns += reportlist_urlpatterns
+urlpatterns += reportlist_urlpatterns

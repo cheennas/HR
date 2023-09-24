@@ -4,7 +4,7 @@ from general_info.models import GeneralInfo
 
 class Photo(models.Model):
     iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="photos")
-    photo = models.ImageField(null=True, blank=True, default=None, upload_to='photos')
+    photo = models.TextField(null=True, blank=True)
 
     class Meta:
         db_table = 'photo'

@@ -1,6 +1,7 @@
-from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView
 from django.db import connection
+from datetime import datetime, date
+from django.db.models import Q
 from rest_framework import status
 from rest_framework.response import Response
 from personal_data.models import PersonalData
@@ -37,8 +38,6 @@ from working_history.models import WorkingHistory
 from working_history.serializers import WorkingHistorySerializer
 from military_rank.models import MilitaryRank
 from military_rank.serializers import MilitaryRankSerializer
-from django.db import connection
-from rest_framework.response import Response
 from rest_framework.views import APIView
 
 
@@ -88,7 +87,6 @@ class ReportListAPIView(APIView):
     def get(self, request, format=None):
         response_data = []
         model_fields_filter = {}
-        print(request.query_params)
 
         for field_name, field_value in request.query_params.items():
             if self.field_to_model[field_name] not in model_fields_filter:
@@ -98,9 +96,12 @@ class ReportListAPIView(APIView):
         general_infos = GeneralInfo.objects.all()
 
         if "general_info" in model_fields_filter:
+            q_objects = Q()
             for field_name, field_value in model_fields_filter["general_info"].items():
-                pass
-            general_infos = general_infos.filter(**model_fields_filter["general_info"])
+                filter_dict = {f"{field_name}__icontains": field_value}
+                q_objects &= Q(**filter_dict)
+                related_queryset = GeneralInfo.objects.filter(q_objects)
+                general_infos = related_queryset
 
         model_fields_filter.pop("general_info", None)
 
@@ -108,8 +109,34 @@ class ReportListAPIView(APIView):
             current_data = {"general_info": self.available_serializers["general_info"](general_info).data}
             for related_name, fields_filter in model_fields_filter.items():
                 related_queryset = getattr(general_info, related_name).all()
-                related_queryset = related_queryset.filter(**fields_filter)
-                current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data
+                q_objects = Q()
+
+                for field in fields_filter:
+                    field_object = related_queryset.model._meta.get_field(field)
+                    field_type = field_object.get_internal_type()
+
+                    if field_type == "DateField":
+                        start_date, end_date = fields_filter[field].split(':')
+
+                        start_date = datetime.strptime(start_date, '%Y-%m-%d') if start_date else None
+                        end_date = datetime.strptime(end_date, '%Y-%m-%d') if end_date else None
+
+                        if start_date:
+                            filter_dict = {f"{field}__gte":  start_date}
+                            q_objects &= Q(**filter_dict)
+
+                        if end_date:
+                            filter_dict = {f"{field}__lte": end_date}
+                            q_objects &= Q(**filter_dict)
+
+                    else:
+                        filter_dict = {f"{field}__icontains": fields_filter[field]}
+                        q_objects &= Q(**filter_dict)
+
+                related_queryset = related_queryset.filter(q_objects)
+
+                if len(related_queryset):
+                    current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data
             response_data.append(current_data)
 
         return Response(response_data, status=status.HTTP_200_OK)

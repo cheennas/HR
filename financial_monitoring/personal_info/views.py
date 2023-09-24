@@ -52,7 +52,6 @@ class PersonalInfoAPIView(APIView):
 
         for related_name, serializer in self.available_serializers.items():
             related_queryset = getattr(general_info, related_name).all()
-            print(related_queryset)
             if related_name != 'personal_data':
                 response_data[related_name] = serializer(related_queryset, many=True).data
             else:

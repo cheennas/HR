@@ -5,7 +5,6 @@ from general_info.models import GeneralInfo
 
 class GroupSerializer(serializers.ModelSerializer):
     general_info = serializers.ListField(child=serializers.PrimaryKeyRelatedField(queryset=GeneralInfo.objects.all()), write_only=True)
-    print(general_info)
 
     class Meta:
         model = Group

@@ -13,6 +13,7 @@ class GeneralInfo(models.Model):
     birth_country = models.CharField(max_length=255, null=True, blank=True)
     birth_city = models.CharField(max_length=255, null=True, blank=True)
     birth_region = models.CharField(max_length=255, null=True, blank=True)
+    birth_oblast = models.CharField(max_length=255, null=True, blank=True)
     nationality = models.CharField(max_length=255, null=True, blank=True)
     id_numbers = models.CharField(max_length=255, null=True, blank=True)
     id_from = models.CharField(max_length=255, null=True, blank=True)
@@ -27,4 +28,4 @@ class GeneralInfo(models.Model):
         db_table = 'general_info'
 
     def __str__(self):
-        return f"{self.iin}_{self.birth_region}"
+        return f"{self.iin}_{self.surname}_{self.firstname}_{self.patronymic}"
