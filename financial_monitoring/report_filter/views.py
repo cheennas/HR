@@ -39,6 +39,7 @@ from working_history.serializers import WorkingHistorySerializer
 from military_rank.models import MilitaryRank
 from military_rank.serializers import MilitaryRankSerializer
 from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
 
 
 class ReportListAPIView(APIView):
@@ -84,11 +85,15 @@ class ReportListAPIView(APIView):
         model_field.name: model_name for model_name, model in available_models.items() for model_field in model._meta.fields
     }
 
+    pagination_class = PageNumberPagination
+
     def get(self, request, format=None):
         response_data = []
         model_fields_filter = {}
 
         for field_name, field_value in request.query_params.items():
+            if field_name == "page":
+                continue
             if self.field_to_model[field_name] not in model_fields_filter:
                  model_fields_filter[self.field_to_model[field_name]] = {}
             model_fields_filter[self.field_to_model[field_name]][field_name] = field_value
@@ -139,4 +144,8 @@ class ReportListAPIView(APIView):
                     current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data
             response_data.append(current_data)
 
-        return Response(response_data, status=status.HTTP_200_OK)
+        paginator = self.pagination_class()
+        paginated_data = paginator.paginate_queryset(response_data, request)
+        return paginator.get_paginated_response(paginated_data)
+
+        # return Response(response_data, status=status.HTTP_200_OK)

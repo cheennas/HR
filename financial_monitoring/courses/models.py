@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class Courses(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="courses")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="courses")
     course_type = models.CharField(max_length=255, null=True, blank=True)
     course_organization = models.CharField(max_length=255, null=True, blank=True)
     course_start_date = models.DateField(null=True)

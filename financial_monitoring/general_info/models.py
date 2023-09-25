@@ -1,9 +1,8 @@
 from django.db import models
-from group.models import Group
 
 
 class GeneralInfo(models.Model):
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name="general_info", blank=True, null=True)
+    group = models.ForeignKey("group.Group", on_delete=models.CASCADE, related_name="general_info", blank=True, null=True)
     iin = models.CharField(max_length=255, blank=True)
     surname = models.CharField(max_length=255, null=True, blank=True)
     firstname = models.CharField(max_length=255, null=True, blank=True)

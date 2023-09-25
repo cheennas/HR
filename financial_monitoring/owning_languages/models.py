@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class OwningLanguages(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="owning_languages")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="owning_languages")
     language_name = models.CharField(max_length=255, null=True, blank=True)
     owning_lvl = models.CharField(max_length=255, null=True, blank=True)
 

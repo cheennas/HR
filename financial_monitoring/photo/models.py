@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class Photo(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="photos")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="photos")
     photo = models.TextField(null=True, blank=True)
 
     class Meta:

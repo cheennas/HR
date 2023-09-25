@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class Education(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="educations")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="educations")
     education_type = models.CharField(max_length=255, null= True, blank=True)
     education_place = models.CharField(max_length=255, null= True, blank=True)
     education_date_in = models.DateField(null=True)

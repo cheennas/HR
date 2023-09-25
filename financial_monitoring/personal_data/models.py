@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class PersonalData(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="personal_data")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="personal_data")
     family_status = models.CharField(max_length=255, null=True, blank=True)
     departament = models.CharField(max_length=255, null=True, blank=True)
     jposition = models.CharField(max_length=255, null=True, blank=True)

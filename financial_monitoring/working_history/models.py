@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class WorkingHistory(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="working_histories")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="working_histories")
     working_start = models.DateField(null=True)
     working_end = models.DateField(null=True)
     departament = models.CharField(max_length=255, null=True, blank=True)

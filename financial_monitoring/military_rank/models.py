@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class MilitaryRank(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="military_rank")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="military_rank")
     military_rank = models.CharField(max_length=255, null= True, blank=True)
     received_date = models.DateField(null=True)
     type_of_receipt = models.CharField(max_length=255, null= True, blank=True)

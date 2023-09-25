@@ -1,9 +1,8 @@
 from django.db import models
-from general_info.models import GeneralInfo
 
 
 class FamilyComposition(models.Model):
-    iin = models.ForeignKey(GeneralInfo, on_delete=models.CASCADE, related_name="family_compositions")
+    iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="family_compositions")
     relative_type = models.CharField(max_length=255, null=True, blank=True)
     fio = models.CharField(max_length=255, null=True, blank=True)
     rel_iin = models.CharField(max_length=255, null=True, blank=True)

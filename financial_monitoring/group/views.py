@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import viewsets
@@ -25,4 +26,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             groups_with_general_info.append(group_data)
 
         return Response(groups_with_general_info)
+
+
+
 

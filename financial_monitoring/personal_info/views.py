@@ -23,7 +23,7 @@ class PersonalInfoAPIView(APIView):
                         'family_compositions': FamilyComposition,
                         'educations': Education,
                         'owning_languages': OwningLanguages,
-                        'courses' : Courses,
+                        'courses': Courses,
                         'academic_degree': AcademicDegree,
                         'sport_results': SportResults
                         }
