@@ -139,7 +139,7 @@ class ReportListAPIView(APIView):
                         q_objects &= Q(**filter_dict)
 
                 related_queryset = related_queryset.filter(q_objects)
-                # print(f" {related_name } : related_queryset")
+                print(f" {related_name } : related_queryset")
 
                 if len(related_queryset):
                     current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data

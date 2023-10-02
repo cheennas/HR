@@ -3,5 +3,5 @@ from .models import FamilyComposition
 
 @admin.register(FamilyComposition)
 class FamilyCompositionModelAdmin(admin.ModelAdmin):
-    fields = ("iin", "relative_type", "fio", "rel_iin", "birth_date", "job_place")
-    list_display = ("id", "iin", "relative_type", "fio", "rel_iin", "birth_date", "job_place")
+    fields = ("iin", "relative_type", "fio", "rel_iin", "birth_date_family", "job_place")
+    list_display = ("id", "iin", "relative_type", "fio", "rel_iin", "birth_date_family", "job_place")

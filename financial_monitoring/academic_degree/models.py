@@ -3,9 +3,9 @@ from django.db import models
 
 class AcademicDegree(models.Model):
     iin = models.ForeignKey("general_info.GeneralInfo", on_delete=models.CASCADE, related_name="academic_degree")
-    education_place = models.CharField(max_length=255, null=True, blank=True)
+    education_place_academic = models.CharField(max_length=255, null=True, blank=True)
     academic_degree = models.CharField(max_length=255, null=True, blank=True)
-    diploma_number = models.CharField(max_length=255, null=True, blank=True)
+    diploma_number_academic = models.CharField(max_length=255, null=True, blank=True)
     diploma_date = models.DateField(max_length=255, null=True, blank=True)
 
     class Meta:

@@ -6,7 +6,7 @@ class FamilyComposition(models.Model):
     relative_type = models.CharField(max_length=255, null=True, blank=True)
     fio = models.CharField(max_length=255, null=True, blank=True)
     rel_iin = models.CharField(max_length=255, null=True, blank=True)
-    birth_date = models.DateField(null=True)
+    birth_date_family = models.DateField(null=True)
     job_place = models.CharField(max_length=255, null=True, blank=True)
 
     class Meta:
