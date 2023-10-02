@@ -85,7 +85,7 @@ class ReportListAPIView(APIView):
         model_field.name: model_name for model_name, model in available_models.items() for model_field in model._meta.fields
     }
 
-    pagination_class = PageNumberPagination
+    # pagination_class = PageNumberPagination
 
     def get(self, request, format=None):
         response_data = []
@@ -139,13 +139,14 @@ class ReportListAPIView(APIView):
                         q_objects &= Q(**filter_dict)
 
                 related_queryset = related_queryset.filter(q_objects)
+                # print(f" {related_name } : related_queryset")
 
                 if len(related_queryset):
                     current_data[related_name] = self.available_serializers[related_name](related_queryset, many=True).data
             response_data.append(current_data)
 
-        paginator = self.pagination_class()
-        paginated_data = paginator.paginate_queryset(response_data, request)
-        return paginator.get_paginated_response(paginated_data)
+        # paginator = self.pagination_class()
+        # paginated_data = paginator.paginate_queryset(response_data, request)
+        # return paginator.get_paginated_response(paginated_data)
 
-        # return Response(response_data, status=status.HTTP_200_OK)
+        return Response(response_data, status=status.HTTP_200_OK)

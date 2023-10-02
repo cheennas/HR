@@ -12,7 +12,7 @@ from django.conf import settings
 
 class PhotoView(APIView):
     parser_classes = (MultiPartParser, FormParser)
-
+    #
     # def get(self, request, *args, **kwargs):
     #     general_info_id = request.query_params.get('general_info_id')
     #

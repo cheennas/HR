@@ -255,8 +255,6 @@ class GenerateDocumentView(APIView):
             run.font.size = Pt(12)
             details.width = Pt(1000)
 
-
-
         for paragraph in template_doc.paragraphs:
             for run in paragraph.runs:
                 if birth_region is not None:
@@ -290,13 +288,13 @@ class GenerateDocumentView(APIView):
 
         modified_template_buffer = BytesIO()
 
-        image_placeholder = template_doc.paragraphs[0].runs[0].add_picture(BytesIO(image_data))
+        # image_placeholder = template_doc.paragraphs[0].runs[0].add_picture(BytesIO(image_data))
 
-        image_placeholder.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
-        image_placeholder.space_before = Inches(2)
-
-        image_placeholder.width = Cm(3)
-        image_placeholder.height = Cm(4)
+        # image_placeholder.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT
+        # image_placeholder.space_before = Inches(2)
+        #
+        # image_placeholder.width = Cm(3)
+        # image_placeholder.height = Cm(4)
 
         template_doc.save(modified_template_buffer)
         modified_template_buffer.seek(0)
